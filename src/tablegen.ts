@@ -10,6 +10,10 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 		sheet_row_txt?: string,
 		color: string
 	}
+	
+	const week_light = "#ffffff";
+	const week_dark = "#f7f8fa";
+	const color_by_week = true;
 
 	const rowcolors: RowColor[] = [
 		{
@@ -66,7 +70,7 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 			let values = Object.values(row);
 			values.forEach((value, col_idx) => {
 				if (colskip_idx.includes(col_idx)) { 
-					// do nothing
+					// do nothing, skip this column because it's in the skip list
 				} else {
 					let td = document.createElement("td");
 					td.innerHTML = marked(value);
@@ -77,6 +81,14 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 	}
 
 	function colorRow(row_idx: number, row: object, tr: HTMLTableRowElement) {
+		
+		if (color_by_week) {
+			let weeknum = Object(row)["Week"];
+			if (weeknum & 1) {
+				tr.style.backgroundColor = week_light;
+			} else tr.style.backgroundColor = week_dark;
+		}
+		
 		let adjusted_row_idx = row_idx + 2;
 		rowcolors.forEach(rowcolor => {
 			if (!!rowcolor.sheet_row && rowcolor.sheet_row === adjusted_row_idx) {
