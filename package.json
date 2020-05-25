@@ -5,19 +5,24 @@
   "module": "dist/skedj.esm.js",
   "browser": "dist/skedj.umd.js",
   "dependencies": {
+    "@hapi/joi": "^16.0.0",
     "marked": "^1.1.0",
     "ms": "^2.0.0",
     "papaparse": "^5.2.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^12.0.0",
+    "@rollup/plugin-json": "^4.0.3",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-typescript": "^4.1.2",
+    "@types/hapi__joi": "^16.0.0",
     "@types/marked": "^0.7.4",
     "@types/ms": "^0.7.30",
     "@types/papaparse": "^5.0.3",
-    "rollup": "^1.0.0",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup": "^2.10.9",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-serve": "^1.0.1",
-    "rollup-plugin-typescript": "^1.0.0",
     "ts-node": "^7.0.1",
     "tslib": "^1.9.3",
     "typescript": "^3.9.3"

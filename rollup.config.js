@@ -1,8 +1,11 @@
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import typescript from 'rollup-plugin-typescript';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
 import pkg from './package.json';
 import serve from 'rollup-plugin-serve';
+import json from '@rollup/plugin-json';
+import globals from 'rollup-plugin-node-globals';
+import builtins from 'rollup-plugin-node-builtins';
 
 export default [
 	// browser-friendly UMD build
@@ -11,13 +14,17 @@ export default [
 		output: {
 			name: 'Skedj',
 			file: pkg.browser,
-			format: 'umd'
+			format: 'umd',
+			intro: 'const global = window;' // https://github.com/rollup/rollup-plugin-commonjs/issues/6#issuecomment-519537010
 		},
 		plugins: [
 			resolve(),   // so Rollup can find `ms`
 			commonjs(),  // so Rollup can convert `ms` to an ES module
 			typescript(), // so Rollup can convert TypeScript to JavaScript
-			serve('dist') // run server from dist directory for testing
+			serve('dist'), // run server from dist directory for testing
+			json(),
+			globals(),
+			builtins()
 		]
 	},
 
@@ -31,7 +38,9 @@ export default [
 		input: 'src/main.ts',
 		external: ['ms'],
 		plugins: [
-			typescript() // so Rollup can convert TypeScript to JavaScript
+			typescript(), // so Rollup can convert TypeScript to JavaScript
+			json(),
+			builtins()
 		],
 		output: [
 			{ file: pkg.main, format: 'cjs' },

@@ -1,20 +1,59 @@
 import marked from 'marked';
+// import * as Joi from '@hapi/joi';
 
-export default function generateTable (divname: string, sheetData: object[]): void {
 
-	const colskip = ["Recitation Lead", "Teaching", "Travel Schedule"];
+export interface Config {
+	columns_to_skip?: string[],
+	markdown_parse?: boolean,
+	color_by_week?: boolean,
+	week_light?: string,
+	week_dark?: string,
+	special_row_colors?: RowColor[],
+	table_css_class: string
+}
+
+export interface RowColor {
+	sheet_row?: number,
+	sheet_row_txt?: string,
+	color?: string,
+	tr_css_class?: string
+}
+
+// const RowColorSchema = Joi.object().keys({
+// 	sheet_row: Joi.number(),
+// 	sheet_row_txt: Joi.string(),
+// 	color: Joi.string(),
+// 	tr_css_class: Joi.string()
+// }).xor('sheet_row', 'sheet_row_txt');
+
+// export const ConfigSchema = Joi.object().keys({
+// 	columns_to_skip: Joi.array().items(Joi.string()).default([]),
+// 	markdown_parse: Joi.boolean().default(true),
+// 	color_by_week: Joi.boolean().default(true),
+// 	week_light: Joi.string().default("#ffffff"),
+// 	week_dark: Joi.string().default("#f7f8fa"),
+// 	// special_row_colors: Joi.array().items(RowColorSchema).default([]),
+// 	table_css_class: Joi.string().default("table-skedj")
+//   });
+
+
+export default function generateTable (divname: string, sheetData: object[], conf: Partial<Config> = {}): void {
+
+	// const result = ConfigSchema.validate(conf);
+	// if (result.error) {
+	//   throw result.error;
+	// }
+	// const config = result.value;
+
+
+	const columns_to_skip = ["Recitation Lead", "Teaching", "Travel Schedule"];
 	let colskip_idx: number[] = [];
-
-	interface RowColor {
-		sheet_row?: number,
-		sheet_row_txt?: string,
-		color: string
-	}
 	
 	const week_light = "#ffffff";
 	const week_dark = "#f7f8fa";
 	const color_by_week = true;
 	const markdown_parse = true;
+	const table_css_class = "table-skedj";
 
 	const rowcolors: RowColor[] = [
 		{
@@ -36,7 +75,7 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 
 	const table = document.createElement("table");
 	table.setAttribute("id", divname + "-table");
-	table.setAttribute("class", "table-skedj");
+	table.setAttribute("class", table_css_class!);
 	container?.appendChild(table);
 
 	let header = sheetData[0];
@@ -48,7 +87,7 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 		let row = thead.insertRow();
 		let keys = Object.keys(firstrow);
 		keys.forEach((key, index) => {
-			if (colskip.includes(key)) {
+			if (columns_to_skip?.includes(key)) {
 				colskip_idx.push(index);
 			} 
 			else {
@@ -84,16 +123,18 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 		if (color_by_week) {
 			let weeknum = Object(row)["Week"];
 			if (weeknum & 1) {
-				tr.style.backgroundColor = week_light;
-			} else tr.style.backgroundColor = week_dark;
+				tr.style.backgroundColor = week_light!;
+			} else tr.style.backgroundColor = week_dark!;
 		}
 		
 		let adjusted_row_idx = row_idx + 2;
 		rowcolors.forEach(rowcolor => {
 			if (!!rowcolor.sheet_row && rowcolor.sheet_row === adjusted_row_idx) {
-				tr.style.backgroundColor = rowcolor.color;
+				if (!!rowcolor.color) tr.style.backgroundColor = rowcolor.color;
+				else if (!!rowcolor.tr_css_class) tr.setAttribute("class", rowcolor.tr_css_class);
 			} else if (!!rowcolor.sheet_row_txt && objectContains(row, rowcolor.sheet_row_txt)) {
-				tr.style.backgroundColor = rowcolor.color;
+				if (!!rowcolor.color) tr.style.backgroundColor = rowcolor.color;
+				else if (!!rowcolor.tr_css_class) tr.setAttribute("class", rowcolor.tr_css_class);
 			}
 		});
 	}
