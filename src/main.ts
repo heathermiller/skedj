@@ -11,7 +11,7 @@ import Papa from 'papaparse';
 // [ ] let user pass stylesheet
 // [x] color specific rows (numbers)
 // [x] color specific rows (containing text)
-// [ ] week alternate color
+// [x] week alternate color
 // [ ] let user pass config object
 
 export default function Skedj(url: string, divname: string): void {

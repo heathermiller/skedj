@@ -14,6 +14,7 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 	const week_light = "#ffffff";
 	const week_dark = "#f7f8fa";
 	const color_by_week = true;
+	const markdown_parse = true;
 
 	const rowcolors: RowColor[] = [
 		{
@@ -35,14 +36,12 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 
 	const table = document.createElement("table");
 	table.setAttribute("id", divname + "-table");
+	table.setAttribute("class", "table-skedj");
 	container?.appendChild(table);
 
 	let header = sheetData[0];
 	let body = sheetData.slice(0);
 
-	function processCell(data: any) {
-		marked(data)
-	}
 
 	function generateTableHead(table: HTMLTableElement, firstrow: object) {
 		let thead = table.createTHead();
@@ -54,7 +53,7 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 			} 
 			else {
 				let th = document.createElement("th");
-				th.innerHTML = marked(key);
+				th.innerHTML = markdown(key);
 				row.appendChild(th);
 			}
 		});
@@ -73,7 +72,7 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 					// do nothing, skip this column because it's in the skip list
 				} else {
 					let td = document.createElement("td");
-					td.innerHTML = marked(value);
+					td.innerHTML = markdown(value);
 					tr.appendChild(td);
 				}
 			});
@@ -81,7 +80,7 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 	}
 
 	function colorRow(row_idx: number, row: object, tr: HTMLTableRowElement) {
-		
+
 		if (color_by_week) {
 			let weeknum = Object(row)["Week"];
 			if (weeknum & 1) {
@@ -97,6 +96,11 @@ export default function generateTable (divname: string, sheetData: object[]): vo
 				tr.style.backgroundColor = rowcolor.color;
 			}
 		});
+	}
+
+	function markdown(value: string) {
+		if (markdown_parse) return marked(value);
+		else return value;
 	}
 
 	function objectContains(obj: object, term: string): boolean {
