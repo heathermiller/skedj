@@ -1,5 +1,5 @@
 import ms from 'ms';
-import generateTable from './tablegen.js';
+import generateTable from './tablegen';
 import millisecondsUntil from './config.js';
 import Papa from 'papaparse';
 

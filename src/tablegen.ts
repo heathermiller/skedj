@@ -1,5 +1,5 @@
 import marked from 'marked';
-// import * as Joi from '@hapi/joi';
+import * as Joi from '@hapi/joi';
 
 
 export interface Config {
@@ -19,41 +19,41 @@ export interface RowColor {
 	tr_css_class?: string
 }
 
-// const RowColorSchema = Joi.object().keys({
-// 	sheet_row: Joi.number(),
-// 	sheet_row_txt: Joi.string(),
-// 	color: Joi.string(),
-// 	tr_css_class: Joi.string()
-// }).xor('sheet_row', 'sheet_row_txt');
+const RowColorSchema = Joi.object().keys({
+	sheet_row: Joi.number(),
+	sheet_row_txt: Joi.string(),
+	color: Joi.string(),
+	tr_css_class: Joi.string()
+}).xor('sheet_row', 'sheet_row_txt').xor('color', 'tr_css_class');
 
-// export const ConfigSchema = Joi.object().keys({
-// 	columns_to_skip: Joi.array().items(Joi.string()).default([]),
-// 	markdown_parse: Joi.boolean().default(true),
-// 	color_by_week: Joi.boolean().default(true),
-// 	week_light: Joi.string().default("#ffffff"),
-// 	week_dark: Joi.string().default("#f7f8fa"),
-// 	// special_row_colors: Joi.array().items(RowColorSchema).default([]),
-// 	table_css_class: Joi.string().default("table-skedj")
-//   });
+export const ConfigSchema = Joi.object().keys({
+	columns_to_skip: Joi.array().items(Joi.string()).default([]),
+	markdown_parse: Joi.boolean().default(true),
+	color_by_week: Joi.boolean().default(true),
+	week_light: Joi.string().default("#ffffff"),
+	week_dark: Joi.string().default("#f7f8fa"),
+	special_row_colors: Joi.array().items(RowColorSchema).default([]),
+	table_css_class: Joi.string().default("table-skedj")
+  });
 
 
 export default function generateTable (divname: string, sheetData: object[], conf: Partial<Config> = {}): void {
 
-	// const result = ConfigSchema.validate(conf);
-	// if (result.error) {
-	//   throw result.error;
-	// }
-	// const config = result.value;
+	const result = ConfigSchema.validate(conf);
+	if (result.error) {
+	  throw result.error;
+	}
+	const config = result.value;
 
 
-	const columns_to_skip = ["Recitation Lead", "Teaching", "Travel Schedule"];
+	// const columns_to_skip = ["Recitation Lead", "Teaching", "Travel Schedule"];
 	let colskip_idx: number[] = [];
 	
-	const week_light = "#ffffff";
-	const week_dark = "#f7f8fa";
-	const color_by_week = true;
-	const markdown_parse = true;
-	const table_css_class = "table-skedj";
+	// const week_light = "#ffffff";
+	// const week_dark = "#f7f8fa";
+	// const color_by_week = true;
+	// const markdown_parse = true;
+	// const table_css_class = "table-skedj";
 
 	const rowcolors: RowColor[] = [
 		{
@@ -75,7 +75,7 @@ export default function generateTable (divname: string, sheetData: object[], con
 
 	const table = document.createElement("table");
 	table.setAttribute("id", divname + "-table");
-	table.setAttribute("class", table_css_class!);
+	table.setAttribute("class", conf.table_css_class!);
 	container?.appendChild(table);
 
 	let header = sheetData[0];
@@ -87,7 +87,7 @@ export default function generateTable (divname: string, sheetData: object[], con
 		let row = thead.insertRow();
 		let keys = Object.keys(firstrow);
 		keys.forEach((key, index) => {
-			if (columns_to_skip?.includes(key)) {
+			if (config.columns_to_skip?.includes(key)) {
 				colskip_idx.push(index);
 			} 
 			else {
@@ -120,11 +120,11 @@ export default function generateTable (divname: string, sheetData: object[], con
 
 	function colorRow(row_idx: number, row: object, tr: HTMLTableRowElement) {
 
-		if (color_by_week) {
+		if (conf.color_by_week) {
 			let weeknum = Object(row)["Week"];
 			if (weeknum & 1) {
-				tr.style.backgroundColor = week_light!;
-			} else tr.style.backgroundColor = week_dark!;
+				tr.style.backgroundColor = conf.week_light!;
+			} else tr.style.backgroundColor = conf.week_dark!;
 		}
 		
 		let adjusted_row_idx = row_idx + 2;
@@ -140,7 +140,7 @@ export default function generateTable (divname: string, sheetData: object[], con
 	}
 
 	function markdown(value: string) {
-		if (markdown_parse) return marked(value);
+		if (conf.markdown_parse) return marked(value);
 		else return value;
 	}
 

@@ -1,0 +1,145 @@
+
+@keyframes spinAround {
+    from {
+      transform: rotate(0deg); }
+    to {
+      transform: rotate(359deg); } }
+  
+  .table:not(:last-child), .table-container:not(:last-child) {
+    margin-bottom: 1.5rem; }
+  
+  .table-skedj {
+    font-family: Arial, Helvetica, sans-serif;
+    border-spacing: 0px;
+    background-color: white;
+    color: #363636; }
+    .table-skedj thead th p,
+    .table-skedj tbody tr td p {
+    margin: 0;
+    }
+    .table-skedj td,
+    .table-skedj th {
+      border: 1px solid #dbdbdb;
+      border-width: 0 0 1px;
+      padding: 0.5em 0.75em;
+      vertical-align: top; }
+      .table-skedj td.is-white,
+      .table-skedj th.is-white {
+        background-color: white;
+        border-color: white;
+        color: #0a0a0a; }
+      .table-skedj td.is-black,
+      .table-skedj th.is-black {
+        background-color: #0a0a0a;
+        border-color: #0a0a0a;
+        color: white; }
+      .table-skedj td.is-light,
+      .table-skedj th.is-light {
+        background-color: whitesmoke;
+        border-color: whitesmoke;
+        color: rgba(0, 0, 0, 0.7); }
+      .table-skedj td.is-dark,
+      .table-skedj th.is-dark {
+        background-color: #363636;
+        border-color: #363636;
+        color: #fff; }
+      .table-skedj td.is-primary,
+      .table-skedj th.is-primary {
+        background-color: #00d1b2;
+        border-color: #00d1b2;
+        color: #fff; }
+      .table-skedj td.is-link,
+      .table-skedj th.is-link {
+        background-color: #3273dc;
+        border-color: #3273dc;
+        color: #fff; }
+      .table-skedj td.is-info,
+      .table-skedj th.is-info {
+        background-color: #3298dc;
+        border-color: #3298dc;
+        color: #fff; }
+      .table-skedj td.is-success,
+      .table-skedj th.is-success {
+        background-color: #48c774;
+        border-color: #48c774;
+        color: #fff; }
+      .table-skedj td.is-warning,
+      .table-skedj th.is-warning {
+        background-color: #ffdd57;
+        border-color: #ffdd57;
+        color: rgba(0, 0, 0, 0.7); }
+      .table-skedj td.is-danger,
+      .table-skedj th.is-danger {
+        background-color: #f14668;
+        border-color: #f14668;
+        color: #fff; }
+      .table-skedj td.is-narrow,
+      .table-skedj th.is-narrow {
+        white-space: nowrap;
+        width: 1%; }
+      .table-skedj td.is-selected,
+      .table-skedj th.is-selected {
+        background-color: #00d1b2;
+        color: #fff; }
+        .table-skedj td.is-selected a,
+        .table-skedj td.is-selected strong,
+        .table-skedj th.is-selected a,
+        .table-skedj th.is-selected strong {
+          color: currentColor; }
+    .table-skedj th {
+      color: #363636; }
+      .table-skedj th:not([align]) {
+        text-align: left; }
+    .table-skedj tr.is-selected {
+      background-color: #00d1b2;
+      color: #fff; }
+      .table-skedj tr.is-selected a,
+      .table-skedj tr.is-selected strong {
+        color: currentColor; }
+      .table-skedj tr.is-selected td,
+      .table-skedj tr.is-selected th {
+        border-color: #fff;
+        color: currentColor; }
+    .table-skedj thead {
+      background-color: transparent; }
+      .table-skedj thead td,
+      .table-skedj thead th {
+        border-width: 0 0 2px;
+        color: #363636; }
+    .table-skedj tfoot {
+      background-color: transparent; }
+      .table-skedj tfoot td,
+      .table-skedj tfoot th {
+        border-width: 2px 0 0;
+        color: #363636; }
+    .table-skedj tbody {
+      background-color: transparent; }
+      .table-skedj tbody tr:last-child td,
+      .table-skedj tbody tr:last-child th {
+        border-bottom-width: 0; }
+    .table-skedj.is-bordered td,
+    .table-skedj.is-bordered th {
+      border-width: 1px; }
+    .table-skedj.is-bordered tr:last-child td,
+    .table-skedj.is-bordered tr:last-child th {
+      border-bottom-width: 1px; }
+    .table-skedj.is-fullwidth {
+      width: 100%; }
+    .table-skedj.is-hoverable tbody tr:not(.is-selected):hover {
+      background-color: #fafafa; }
+    .table-skedj.is-hoverable.is-striped tbody tr:not(.is-selected):hover {
+      background-color: #fafafa; }
+      .table-skedj.is-hoverable.is-striped tbody tr:not(.is-selected):hover:nth-child(even) {
+        background-color: whitesmoke; }
+    .table-skedj.is-narrow td,
+    .table-skedj.is-narrow th {
+      padding: 0.25em 0.5em; }
+    .table-skedj.is-striped tbody tr:not(.is-selected):nth-child(even) {
+      background-color: #fafafa; }
+  
+  .table-skedj-container {
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+    overflow-y: hidden;
+    max-width: 100%; }
+  

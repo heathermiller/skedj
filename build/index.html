@@ -1,0 +1,27 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Testing out bundle</title>
+  <link rel="stylesheet" href="bootstrap-table.css">
+
+</head>
+
+<body>
+
+  Hip hip hooray!
+
+  <div id="myskedj"></div>
+
+  <script src="main-bundle.js">
+  </script>
+  <script type = "text/javascript">
+    var url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_43dIW4qV8eUWJHg9g_IIw4tAMg9Tz7RLcgU0P1C4U43_lxCNNw24_PjDzoAPuTTWCnXT_sXAqAIv/pub?output=csv";
+    Skedj(url, "myskedj", {
+        columns_to_skip: ["Recitation Lead", "Teaching", "Travel Schedule"]
+    });
+  </script>
+</body>
+</html>
