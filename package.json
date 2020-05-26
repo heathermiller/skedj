@@ -1,9 +1,12 @@
 {
   "name": "skedj",
-  "version": "2.0.0",
-  "main": "dist/skedj.cjs.js",
-  "module": "dist/skedj.esm.js",
-  "browser": "dist/skedj.umd.js",
+  "version": "4.0.0",
+  "main": "build/skedj.js",
+  "unpkg": "build/skedj.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heathermiller/skedj.git"
+  },
   "dependencies": {
     "@hapi/joi": "^17.1.0",
     "marked": "^1.1.0",
@@ -33,6 +36,22 @@
     "serve": "http-server build"
   },
   "files": [
-    "dist"
-  ]
+    "build/skedj.js"
+  ],
+  "description": "Note: this was meant for course schedules.",
+  "bugs": {
+    "url": "https://github.com/heathermiller/skedj/issues"
+  },
+  "homepage": "https://github.com/heathermiller/skedj#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "google sheets",
+    "table",
+    "schedule",
+    "course schedule"
+  ],
+  "author": "Heather Miller",
+  "license": "ISC"
 }
