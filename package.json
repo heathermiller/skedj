@@ -1,6 +1,6 @@
 {
   "name": "skedj",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "dist/skedj.cjs.js",
   "module": "dist/skedj.esm.js",
   "browser": "dist/skedj.umd.js",
