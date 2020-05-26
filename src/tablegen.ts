@@ -1,81 +1,25 @@
 import marked from 'marked';
-import * as Joi from '@hapi/joi';
+import {Config, ConfigSchema, RowColor, RowColorSchema} from './config';
 
+export default function generateTable (divname: string, sheetData: object[], conf: Config): void {
 
-export interface Config {
-	columns_to_skip?: string[],
-	markdown_parse?: boolean,
-	color_by_week?: boolean,
-	week_light?: string,
-	week_dark?: string,
-	special_row_colors?: RowColor[],
-	table_css_class: string
-}
-
-export interface RowColor {
-	sheet_row?: number,
-	sheet_row_txt?: string,
-	color?: string,
-	tr_css_class?: string
-}
-
-const RowColorSchema = Joi.object().keys({
-	sheet_row: Joi.number(),
-	sheet_row_txt: Joi.string(),
-	color: Joi.string(),
-	tr_css_class: Joi.string()
-}).xor('sheet_row', 'sheet_row_txt').xor('color', 'tr_css_class');
-
-export const ConfigSchema = Joi.object().keys({
-	columns_to_skip: Joi.array().items(Joi.string()).default([]),
-	markdown_parse: Joi.boolean().default(true),
-	color_by_week: Joi.boolean().default(true),
-	week_light: Joi.string().default("#ffffff"),
-	week_dark: Joi.string().default("#f7f8fa"),
-	special_row_colors: Joi.array().items(RowColorSchema).default([]),
-	table_css_class: Joi.string().default("table-skedj")
-  });
-
-
-export default function generateTable (divname: string, sheetData: object[], conf: Partial<Config> = {}): void {
-
-	const result = ConfigSchema.validate(conf);
-	if (result.error) {
-	  throw result.error;
+	const validation_config = ConfigSchema.validate(conf);
+	if (validation_config.error) {
+	  console.log(validation_config.error.message);
+	  console.log(validation_config.error.details);
+	  throw validation_config.error;
 	}
-	const config = result.value;
+	const config = validation_config.value;
 
+	const rowcolors: RowColor[] = config.special_row_colors;
 
-	// const columns_to_skip = ["Recitation Lead", "Teaching", "Travel Schedule"];
 	let colskip_idx: number[] = [];
-	
-	// const week_light = "#ffffff";
-	// const week_dark = "#f7f8fa";
-	// const color_by_week = true;
-	// const markdown_parse = true;
-	// const table_css_class = "table-skedj";
-
-	const rowcolors: RowColor[] = [
-		{
-			sheet_row_txt: "First Midterm Exam",
-			color: "#ffe59a"
-		},
-		{
-			// sheet_row: 26,
-			sheet_row_txt: "Thanksgiving",
-			color: "#d9ebd3"
-		},		
-		{
-			sheet_row_txt: "Second Midterm Exam",
-			color: "#ffe59a"
-		}			
-	];
 
 	const container = document.getElementById(divname);
 
 	const table = document.createElement("table");
 	table.setAttribute("id", divname + "-table");
-	table.setAttribute("class", conf.table_css_class!);
+	table.setAttribute("class", config.table_css_class!);
 	container?.appendChild(table);
 
 	let header = sheetData[0];
@@ -120,14 +64,15 @@ export default function generateTable (divname: string, sheetData: object[], con
 
 	function colorRow(row_idx: number, row: object, tr: HTMLTableRowElement) {
 
-		if (conf.color_by_week) {
+		if (config.color_by_week) {
 			let weeknum = Object(row)["Week"];
 			if (weeknum & 1) {
-				tr.style.backgroundColor = conf.week_light!;
-			} else tr.style.backgroundColor = conf.week_dark!;
+				tr.style.backgroundColor = config.week_light!;
+			} else tr.style.backgroundColor = config.week_dark!;
 		}
 		
 		let adjusted_row_idx = row_idx + 2;
+		if (typeof rowcolors === 'undefined') return;
 		rowcolors.forEach(rowcolor => {
 			if (!!rowcolor.sheet_row && rowcolor.sheet_row === adjusted_row_idx) {
 				if (!!rowcolor.color) tr.style.backgroundColor = rowcolor.color;
@@ -140,7 +85,7 @@ export default function generateTable (divname: string, sheetData: object[], con
 	}
 
 	function markdown(value: string) {
-		if (conf.markdown_parse) return marked(value);
+		if (config.markdown_parse) return marked(value);
 		else return value;
 	}
 

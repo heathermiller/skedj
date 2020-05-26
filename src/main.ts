@@ -1,6 +1,5 @@
-import ms from 'ms';
 import generateTable from './tablegen';
-import millisecondsUntil from './config.js';
+import {Config} from './config';
 import Papa from 'papaparse';
 
 // wishlist:
@@ -12,9 +11,9 @@ import Papa from 'papaparse';
 // [x] color specific rows (numbers)
 // [x] color specific rows (containing text)
 // [x] week alternate color
-// [ ] let user pass config object
+// [x] let user pass config object
 
-export default function Skedj(url: string, divname: string): void {
+export default function Skedj(url: string, divname: string, conf: Config): void {
 	
 	Papa.parse(url, {
 		download: true,
@@ -22,7 +21,7 @@ export default function Skedj(url: string, divname: string): void {
 		complete: function(results) {
 		  var data = results.data
 		  console.log(data)
-		  generateTable(divname, data)
+		  generateTable(divname, data, conf)
 		}
 	  });
 

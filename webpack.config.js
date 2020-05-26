@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   mode: "development",
@@ -9,7 +10,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: "[name]-bundle.js",
+    filename: "skedj.js",
     library: 'Skedj',
     libraryTarget: 'window',
     libraryExport: 'default'
@@ -24,6 +25,12 @@ module.exports = {
       { test: /\.tsx?$/, loader: "ts-loader" },
     ],
   },
+//   optimization: {
+//     minimize: true,
+//     minimizer: [new TerserPlugin({
+//         sourceMap: true,
+//     })]
+//   },
   plugins: [
     new CopyWebpackPlugin([
       {
