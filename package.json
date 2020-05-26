@@ -1,6 +1,6 @@
 {
   "name": "skedj",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "main": "build/skedj.js",
   "unpkg": "build/skedj.js",
   "repository": {
@@ -36,7 +36,9 @@
     "serve": "http-server build"
   },
   "files": [
-    "build/skedj.js"
+    "build/skedj.js",
+    "build/bootstrap-table.css",
+    "build/bulma-table.css"
   ],
   "description": "Note: this was meant for course schedules.",
   "bugs": {
