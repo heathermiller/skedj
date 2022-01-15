@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.0",
-    "marked": "^1.1.0",
+    "marked": "^4.0.10",
     "ms": "^2.0.0",
     "papaparse": "^5.2.0"
   },
